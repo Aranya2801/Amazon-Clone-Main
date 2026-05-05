@@ -1,0 +1,22 @@
+/* FOOTER CSS */
+.footer { background: var(--amazon-dark); color: white; }
+.back-to-top { display: block; width: 100%; background: var(--amazon-navy-light); color: white; padding: 14px; text-align: center; font-size: 14px; font-weight: 600; transition: background var(--transition-fast); cursor: pointer; }
+.back-to-top:hover { background: #4a5568; }
+.back-to-top i { margin-right: 6px; }
+.footer-links { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; padding: 40px 60px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+.footer-col h4 { font-size: 15px; font-weight: 700; margin-bottom: 14px; color: white; }
+.footer-col ul { display: flex; flex-direction: column; gap: 8px; }
+.footer-col ul a { font-size: 13px; color: #ccc; transition: color var(--transition-fast); }
+.footer-col ul a:hover { color: white; }
+.footer-col ul a i { margin-right: 8px; font-size: 12px; }
+.footer-bottom { display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 28px 20px; text-align: center; }
+.footer-app-links { display: flex; gap: 12px; }
+.app-badge { display: flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2); color: white; padding: 8px 18px; border-radius: 6px; font-size: 13px; font-weight: 600; transition: background var(--transition-fast); }
+.app-badge:hover { background: rgba(255,255,255,0.15); color: white; }
+.footer-legal { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; }
+.footer-legal a { font-size: 12px; color: #ccc; transition: color var(--transition-fast); }
+.footer-legal a:hover { color: white; }
+.footer-copyright { font-size: 12px; color: #888; }
+.footer-made { font-size: 12px; color: #888; }
+@media (max-width: 900px) { .footer-links { grid-template-columns: repeat(2,1fr); padding: 24px 20px; } }
+@media (max-width: 500px) { .footer-links { grid-template-columns: 1fr; } }

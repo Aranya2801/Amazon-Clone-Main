@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Your Orders — Amazon Clone</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg"/>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="../css/main.css"/>
+  <link rel="stylesheet" href="../css/navbar.css"/>
+  <link rel="stylesheet" href="../css/footer.css"/>
+  <link rel="stylesheet" href="../css/animations.css"/>
+  <style>
+    .orders-page { max-width: 900px; margin: 0 auto; padding: 24px 20px; }
+    .orders-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 12px; }
+    .orders-header h1 { font-size: 26px; font-weight: 800; color: var(--text-primary); }
+    .orders-filter-bar { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+    .orders-filter-select { padding: 8px 14px; border: 1px solid var(--border-color); border-radius: var(--border-radius-sm); background: var(--bg-card); color: var(--text-primary); font-size: 14px; cursor: pointer; font-family: inherit; }
+    .order-search-input { padding: 8px 14px; border: 1px solid var(--border-color); border-radius: var(--border-radius-sm); background: var(--bg-card); color: var(--text-primary); font-size: 14px; font-family: inherit; min-width: 220px; }
+    .order-search-input:focus { outline: none; border-color: var(--amazon-orange); }
+    .order-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--border-radius); margin-bottom: 16px; overflow: hidden; box-shadow: var(--shadow-sm); transition: box-shadow var(--transition-fast); }
+    .order-card:hover { box-shadow: var(--shadow-md); }
+    .order-card-header { background: var(--bg-section); padding: 14px 20px; display: grid; grid-template-columns: repeat(4, 1fr) auto; gap: 16px; align-items: center; border-bottom: 1px solid var(--border-color); }
+    .order-header-cell { display: flex; flex-direction: column; gap: 2px; }
+    .order-header-label { font-size: 11px; color: var(--text-muted); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+    .order-header-value { font-size: 13px; font-weight: 700; color: var(--text-primary); }
+    .order-id-link { color: var(--text-link); cursor: pointer; }
+    .order-id-link:hover { text-decoration: underline; }
+    .order-body { padding: 20px; }
+    .order-item-row { display: flex; gap: 16px; align-items: flex-start; padding: 12px 0; border-bottom: 1px solid var(--border-color); }
+    .order-item-row:last-child { border-bottom: none; }
+    .order-item-img { width: 80px; height: 80px; object-fit: contain; border-radius: 6px; background: #f8f8f8; padding: 6px; flex-shrink: 0; }
+    .order-item-info { flex: 1; }
+    .order-item-name { font-size: 14px; font-weight: 600; color: var(--text-link); cursor: pointer; margin-bottom: 4px; line-height: 1.4; }
+    .order-item-name:hover { text-decoration: underline; }
+    .order-item-meta { font-size: 12px; color: var(--text-muted); margin-bottom: 8px; }
+    .order-item-price { font-size: 15px; font-weight: 800; color: var(--price-color); }
+    .order-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+    .order-action-btn { padding: 7px 14px; font-size: 13px; border: 1px solid var(--border-color); border-radius: var(--border-radius-sm); background: var(--bg-section); color: var(--text-primary); cursor: pointer; font-weight: 600; transition: all var(--transition-fast); font-family: inherit; }
+    .order-action-btn:hover { border-color: var(--amazon-orange); color: var(--amazon-orange); }
+    .order-action-btn.primary { background: linear-gradient(to bottom, #FFD814, #FF9900); border-color: #FCD200; color: #000; }
+    .order-action-btn.primary:hover { box-shadow: 0 2px 8px rgba(255,153,0,0.3); }
+    .status-badge { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: var(--border-radius-pill); }
+    .status-delivered { background: #e8f5e9; color: #007600; }
+    .status-shipped { background: #e3f2fd; color: #1565c0; }
+    .status-processing { background: #fff3e0; color: #e65100; }
+    .status-cancelled { background: #fce4ec; color: #c62828; }
+    /* Tracking Timeline */
+    .tracking-timeline { margin-top: 16px; padding: 16px; background: var(--bg-section); border-radius: var(--border-radius); border: 1px solid var(--border-color); }
+    .tracking-timeline h4 { font-size: 14px; font-weight: 700; margin-bottom: 14px; color: var(--text-primary); }
+    .timeline { display: flex; position: relative; }
+    .timeline::before { content: ''; position: absolute; top: 14px; left: 14px; right: 14px; height: 3px; background: var(--border-color); z-index: 0; }
+    .timeline-step { flex: 1; display: flex; flex-direction: column; align-items: center; position: relative; z-index: 1; }
+    .timeline-dot { width: 28px; height: 28px; border-radius: 50%; border: 3px solid var(--border-color); background: var(--bg-card); display: flex; align-items: center; justify-content: center; font-size: 11px; color: var(--text-muted); margin-bottom: 8px; transition: all var(--transition-med); }
+    .timeline-dot.completed { background: #007600; border-color: #007600; color: white; }
+    .timeline-dot.active { background: var(--amazon-orange); border-color: var(--amazon-orange); color: #000; animation: pulse-dot 2s infinite; }
+    @keyframes pulse-dot { 0%,100%{box-shadow:0 0 0 0 rgba(255,153,0,0.4)} 50%{box-shadow:0 0 0 8px rgba(255,153,0,0)} }
+    .timeline-label { font-size: 11px; font-weight: 600; color: var(--text-muted); text-align: center; }
+    .timeline-label.completed { color: #007600; }
+    .timeline-label.active { color: var(--amazon-orange); }
+    .no-orders { text-align: center; padding: 60px 20px; }
+    .no-orders i { font-size: 64px; color: var(--border-color); margin-bottom: 20px; }
+    .no-orders h2 { font-size: 22px; font-weight: 700; margin-bottom: 8px; color: var(--text-primary); }
+    .no-orders p { color: var(--text-muted); margin-bottom: 20px; }
+    @media (max-width: 700px) { .order-card-header { grid-template-columns: 1fr 1fr; } }
+  </style>
+</head>
+<body>
+
+<header class="navbar" id="navbar">
+  <div class="navbar-top">
+    <a href="../index.html" class="nav-logo">
+      <svg width="90" height="28" viewBox="0 0 90 28"><text x="0" y="22" font-family="Georgia,serif" font-size="22" font-weight="800" fill="#FF9900" letter-spacing="-1">amazon</text><path d="M10 26 Q45 32 80 26" stroke="#FF9900" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg>
+      <span class="nav-logo-suffix">.in</span>
+    </a>
+    <div class="nav-actions" style="margin-left:auto;">
+      <button class="nav-dark-toggle border-hover" id="darkModeBtn"><i class="fa-solid fa-moon" id="darkModeIcon"></i></button>
+      <a href="../index.html" class="nav-item border-hover" style="text-decoration:none;">
+        <div class="nav-item-sub">Return to</div>
+        <div class="nav-item-main">Home</div>
+      </a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="orders-page">
+    <div class="orders-header">
+      <h1>Your Orders</h1>
+      <div class="orders-filter-bar">
+        <select class="orders-filter-select" id="timeFilter">
+          <option value="all">Past 3 months</option>
+          <option value="6m">Past 6 months</option>
+          <option value="2024">2024</option>
+          <option value="2023">2023</option>
+        </select>
+        <input type="text" class="order-search-input" id="orderSearch" placeholder="Search all orders..." />
+      </div>
+    </div>
+    <div style="font-size:13px;color:var(--text-muted);margin-bottom:16px;" id="orderCount">Loading orders...</div>
+    <div id="ordersContainer"></div>
+  </div>
+</main>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<footer class="footer">
+  <div class="footer-bottom" style="padding:20px;">
+    <p style="font-size:12px;color:#888;">© 1996-2025, Amazon.com, Inc. or its affiliates. All rights reserved.</p>
+  </div>
+</footer>
+
+<script src="../js/data.js"></script>
+<script src="../js/ui.js"></script>
+<script>
+// Dark mode
+const savedTheme = localStorage.getItem('amazon_theme') || 'light';
+document.documentElement.setAttribute('data-theme', savedTheme);
+const darkIcon = document.getElementById('darkModeIcon');
+if (darkIcon) darkIcon.className = savedTheme === 'dark' ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+document.getElementById('darkModeBtn')?.addEventListener('click', () => {
+  const cur = document.documentElement.getAttribute('data-theme');
+  const next = cur === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  localStorage.setItem('amazon_theme', next);
+  if (darkIcon) darkIcon.className = next === 'dark' ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+});
+
+// Sample orders (in real app, fetched from API)
+const SAMPLE_ORDERS = [
+  {
+    id: 'IN-408-7291034-5671823', date: 'May 2, 2025', total: 26990, status: 'delivered',
+    deliveryDate: 'May 4, 2025', trackingStep: 4,
+    items: [
+      { id: 3, qty: 1, price: 26990 }
+    ]
+  },
+  {
+    id: 'IN-408-8847291-2039485', date: 'April 28, 2025', total: 24900, status: 'shipped',
+    deliveryDate: 'May 6, 2025', trackingStep: 2,
+    items: [
+      { id: 1, qty: 1, price: 24900 }
+    ]
+  },
+  {
+    id: 'IN-408-5532901-8764321', date: 'April 15, 2025', total: 8994, status: 'delivered',
+    deliveryDate: 'April 17, 2025', trackingStep: 4,
+    items: [
+      { id: 5, qty: 1, price: 1299 },
+      { id: 15, qty: 1, price: 399 },
+      { id: 13, qty: 1, price: 999 },
+      { id: 11, qty: 1, price: 499 }
+    ]
+  },
+  {
+    id: 'IN-408-1234567-8901234', date: 'March 30, 2025', total: 3099, status: 'delivered',
+    deliveryDate: 'April 1, 2025', trackingStep: 4,
+    items: [
+      { id: 14, qty: 1, price: 3099 }
+    ]
+  },
+  {
+    id: 'IN-408-9988776-6554433', date: 'March 10, 2025', total: 890, status: 'cancelled',
+    deliveryDate: 'N/A', trackingStep: 0,
+    items: [
+      { id: 12, qty: 1, price: 890 }
+    ]
+  }
+];
+
+const STATUS_CONFIG = {
+  delivered: { label: 'Delivered', class: 'status-delivered', icon: 'fa-check-circle' },
+  shipped:   { label: 'Shipped', class: 'status-shipped', icon: 'fa-truck' },
+  processing:{ label: 'Processing', class: 'status-processing', icon: 'fa-clock' },
+  cancelled: { label: 'Cancelled', class: 'status-cancelled', icon: 'fa-times-circle' }
+};
+
+const TIMELINE_STEPS = ['Order Placed', 'Processing', 'Shipped', 'Out for Delivery', 'Delivered'];
+
+function renderTimeline(step, status) {
+  if (status === 'cancelled') return '';
+  return `
+    <div class="tracking-timeline">
+      <h4><i class="fa-solid fa-map-location-dot"></i> Order Tracking</h4>
+      <div class="timeline">
+        ${TIMELINE_STEPS.map((label, i) => {
+          let cls = '';
+          if (i < step) cls = 'completed';
+          else if (i === step) cls = 'active';
+          return `
+            <div class="timeline-step">
+              <div class="timeline-dot ${cls}">${cls === 'completed' ? '<i class="fa-solid fa-check" style="font-size:10px;"></i>' : i + 1}</div>
+              <div class="timeline-label ${cls}">${label}</div>
+            </div>`;
+        }).join('')}
+      </div>
+    </div>`;
+}
+
+function renderOrder(order) {
+  const st = STATUS_CONFIG[order.status] || STATUS_CONFIG.processing;
+  const items = order.items.map(oi => {
+    const p = PRODUCTS.find(pr => pr.id === oi.id);
+    if (!p) return '';
+    return `
+      <div class="order-item-row">
+        <img src="${p.img}" alt="${p.name}" class="order-item-img" loading="lazy"/>
+        <div class="order-item-info">
+          <div class="order-item-name">${p.name}</div>
+          <div class="order-item-meta">Brand: ${p.brand} &bull; Qty: ${oi.qty}</div>
+          <div class="order-item-price">₹${oi.price.toLocaleString('en-IN')}</div>
+          <div class="order-actions">
+            ${order.status === 'delivered' ? `
+              <button class="order-action-btn primary" onclick="showToast('success','<i class=\\'fa-solid fa-box-open\\'></i>','Return/Replace request submitted!')">Buy it Again</button>
+              <button class="order-action-btn" onclick="showToast('info','<i class=\\'fa-solid fa-star\\'></i>','Review form opening...')">Write a Review</button>
+              <button class="order-action-btn" onclick="showToast('success','<i class=\\'fa-solid fa-rotate-left\\'></i>','Return request initiated!')">Return</button>
+            ` : ''}
+            ${order.status === 'shipped' ? `
+              <button class="order-action-btn primary" onclick="showToast('info','<i class=\\'fa-solid fa-truck\\'></i>','Live tracking: In transit to Kolkata hub')">Track Package</button>
+            ` : ''}
+            ${order.status !== 'cancelled' && order.status !== 'delivered' ? `
+              <button class="order-action-btn" onclick="showToast('info','<i class=\\'fa-solid fa-times\\'></i>','Cancellation requested')">Cancel Order</button>
+            ` : ''}
+            <button class="order-action-btn" onclick="showToast('info','<i class=\\'fa-solid fa-file-invoice\\'></i>','Invoice downloading...')"><i class="fa-solid fa-file-invoice"></i> Invoice</button>
+          </div>
+        </div>
+      </div>`;
+  }).join('');
+
+  return `
+    <div class="order-card fade-in">
+      <div class="order-card-header">
+        <div class="order-header-cell">
+          <span class="order-header-label">Order Placed</span>
+          <span class="order-header-value">${order.date}</span>
+        </div>
+        <div class="order-header-cell">
+          <span class="order-header-label">Total</span>
+          <span class="order-header-value">₹${order.total.toLocaleString('en-IN')}</span>
+        </div>
+        <div class="order-header-cell">
+          <span class="order-header-label">${order.status === 'delivered' ? 'Delivered' : 'Expected'}</span>
+          <span class="order-header-value">${order.deliveryDate}</span>
+        </div>
+        <div class="order-header-cell">
+          <span class="order-header-label">Status</span>
+          <span class="status-badge ${st.class}"><i class="fa-solid ${st.icon}"></i>${st.label}</span>
+        </div>
+        <div class="order-header-cell">
+          <span class="order-header-label">Order ID</span>
+          <span class="order-header-value order-id-link" onclick="showToast('info','<i class=\\'fa-solid fa-copy\\'></i>','Order ID copied!')">${order.id}</span>
+        </div>
+      </div>
+      <div class="order-body">
+        ${items}
+        ${renderTimeline(order.trackingStep - 1, order.status)}
+      </div>
+    </div>`;
+}
+
+function renderOrders(orders) {
+  const container = document.getElementById('ordersContainer');
+  const countEl = document.getElementById('orderCount');
+  if (!orders.length) {
+    container.innerHTML = `
+      <div class="no-orders">
+        <i class="fa-solid fa-box-open"></i>
+        <h2>No orders found</h2>
+        <p>Looks like you haven't placed any orders yet.</p>
+        <a href="../index.html" class="btn-primary">Start Shopping</a>
+      </div>`;
+    countEl.textContent = '0 orders found';
+    return;
+  }
+  countEl.textContent = `${orders.length} order${orders.length !== 1 ? 's' : ''} found`;
+  container.innerHTML = orders.map(renderOrder).join('');
+}
+
+// Initial render
+renderOrders(SAMPLE_ORDERS);
+
+// Search
+document.getElementById('orderSearch')?.addEventListener('input', (e) => {
+  const q = e.target.value.toLowerCase();
+  if (!q) { renderOrders(SAMPLE_ORDERS); return; }
+  const filtered = SAMPLE_ORDERS.filter(order => {
+    const productNames = order.items.map(oi => {
+      const p = PRODUCTS.find(pr => pr.id === oi.id);
+      return p ? p.name.toLowerCase() : '';
+    });
+    return order.id.toLowerCase().includes(q) || productNames.some(n => n.includes(q)) || order.status.includes(q);
+  });
+  renderOrders(filtered);
+});
+</script>
+</body>
+</html>

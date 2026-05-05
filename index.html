@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Amazon Clone - Shop millions of products with fast delivery" />
+  <title>Amazon — Shop. Save. Smile.</title>
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Ember:wght@400;700&family=Amazon+Ember:wght@300;400;500;700&display=swap" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/navbar.css" />
+  <link rel="stylesheet" href="css/hero.css" />
+  <link rel="stylesheet" href="css/products.css" />
+  <link rel="stylesheet" href="css/footer.css" />
+  <link rel="stylesheet" href="css/modals.css" />
+  <link rel="stylesheet" href="css/animations.css" />
+</head>
+<body>
+
+<!-- ANNOUNCEMENT BANNER -->
+<div class="announcement-bar" id="announcementBar">
+  <div class="announcement-inner">
+    <span class="announcement-icon">⚡</span>
+    <span class="announcement-text">LIGHTNING DEAL: Up to 70% off on Electronics — Today Only!</span>
+    <a href="#deals" class="announcement-cta">Shop Now →</a>
+  </div>
+  <button class="announcement-close" onclick="document.getElementById('announcementBar').remove()">✕</button>
+</div>
+
+<!-- NAVBAR -->
+<header class="navbar" id="navbar">
+  <div class="navbar-top">
+    <!-- Logo -->
+    <a href="index.html" class="nav-logo" aria-label="Amazon Home">
+      <svg width="90" height="28" viewBox="0 0 90 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <text x="0" y="22" font-family="Georgia, serif" font-size="22" font-weight="800" fill="#FF9900" letter-spacing="-1">amazon</text>
+        <path d="M10 26 Q45 32 80 26" stroke="#FF9900" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+        <text x="74" y="30" font-family="Georgia" font-size="10" fill="#FF9900">▾</text>
+      </svg>
+      <span class="nav-logo-suffix">.in</span>
+    </a>
+
+    <!-- Delivery Location -->
+    <div class="nav-location" id="navLocation">
+      <div class="nav-location-icon"><i class="fa-solid fa-location-dot"></i></div>
+      <div class="nav-location-text">
+        <span class="nav-location-label">Delivering to</span>
+        <span class="nav-location-city" id="userCity">Kolkata 700001</span>
+      </div>
+    </div>
+
+    <!-- Search Bar -->
+    <div class="nav-search" id="navSearch">
+      <div class="search-category-wrapper">
+        <select class="search-category" id="searchCategory">
+          <option value="all">All</option>
+          <option value="electronics">Electronics</option>
+          <option value="fashion">Fashion</option>
+          <option value="books">Books</option>
+          <option value="home">Home & Kitchen</option>
+          <option value="sports">Sports</option>
+          <option value="beauty">Beauty</option>
+          <option value="toys">Toys</option>
+          <option value="grocery">Grocery</option>
+          <option value="mobiles">Mobiles</option>
+          <option value="computers">Computers</option>
+        </select>
+        <i class="fa-solid fa-chevron-down search-cat-arrow"></i>
+      </div>
+      <div class="search-input-wrapper">
+        <input type="text" id="searchInput" class="search-input" placeholder="Search Amazon.in" autocomplete="off" />
+        <div class="search-suggestions" id="searchSuggestions"></div>
+      </div>
+      <button class="search-btn" id="searchBtn" aria-label="Search">
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </button>
+    </div>
+
+    <!-- Nav Right Actions -->
+    <div class="nav-actions">
+      <!-- Language -->
+      <div class="nav-item nav-language border-hover">
+        <img src="https://flagcdn.com/w20/in.png" alt="IN flag" width="20" height="14" />
+        <span class="nav-item-main">EN</span>
+        <i class="fa-solid fa-caret-down nav-caret"></i>
+      </div>
+
+      <!-- Account -->
+      <div class="nav-item nav-account border-hover" id="accountBtn">
+        <div class="nav-item-sub">Hello, <span id="navUsername">Sign in</span></div>
+        <div class="nav-item-main">Accounts &amp; Lists <i class="fa-solid fa-caret-down nav-caret"></i></div>
+        <!-- Account Dropdown -->
+        <div class="account-dropdown" id="accountDropdown">
+          <div class="account-dropdown-top">
+            <button class="btn-primary btn-sm" id="signInBtn">Sign In</button>
+            <p class="account-new">New customer? <a href="#" id="createAccountBtn">Start here.</a></p>
+          </div>
+          <hr/>
+          <div class="account-dropdown-lists">
+            <ul>
+              <li><strong>Your Lists</strong></li>
+              <li><a href="#"><i class="fa-solid fa-heart"></i> Wish List</a></li>
+              <li><a href="#"><i class="fa-solid fa-list"></i> Shopping List</a></li>
+              <li><a href="#"><i class="fa-solid fa-gift"></i> Baby Registry</a></li>
+            </ul>
+            <ul>
+              <li><strong>Your Account</strong></li>
+              <li><a href="#"><i class="fa-solid fa-user"></i> Account</a></li>
+              <li><a href="#"><i class="fa-solid fa-box"></i> Orders</a></li>
+              <li><a href="#"><i class="fa-solid fa-star"></i> Recommendations</a></li>
+              <li><a href="#"><i class="fa-solid fa-location-dot"></i> Your Amazon</a></li>
+              <li><a href="#"><i class="fa-solid fa-prime"></i> Prime Membership</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Returns -->
+      <div class="nav-item nav-returns border-hover">
+        <div class="nav-item-sub">Returns</div>
+        <div class="nav-item-main">&amp; Orders</div>
+      </div>
+
+      <!-- Dark Mode Toggle -->
+      <button class="nav-dark-toggle border-hover" id="darkModeBtn" title="Toggle dark mode">
+        <i class="fa-solid fa-moon" id="darkModeIcon"></i>
+      </button>
+
+      <!-- Cart -->
+      <div class="nav-item nav-cart border-hover" id="cartBtn">
+        <div class="cart-icon-wrapper">
+          <i class="fa-solid fa-cart-shopping"></i>
+          <span class="cart-count" id="cartCount">0</span>
+        </div>
+        <span class="nav-item-main">Cart</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sub Nav (Panel) -->
+  <nav class="navbar-bottom" aria-label="Main navigation">
+    <div class="panel-inner">
+      <button class="panel-all" id="allMenuBtn">
+        <i class="fa-solid fa-bars"></i> All
+      </button>
+      <a href="#" class="panel-link panel-prime">Try Prime</a>
+      <a href="#todays-deals" class="panel-link">Today's Deals</a>
+      <a href="#" class="panel-link">Amazon miniTV</a>
+      <a href="#" class="panel-link">Sell</a>
+      <a href="#" class="panel-link">Mobiles</a>
+      <a href="#" class="panel-link">Customer Service</a>
+      <a href="#" class="panel-link">Electronics</a>
+      <a href="#" class="panel-link">Fashion</a>
+      <a href="#" class="panel-link">New Releases</a>
+      <a href="#" class="panel-link">Gift Cards</a>
+      <a href="#" class="panel-link panel-deal-tag">🔥 Best Sellers</a>
+    </div>
+  </nav>
+</header>
+
+<!-- MEGA MENU SIDEBAR -->
+<div class="mega-menu-overlay" id="megaMenuOverlay" hidden></div>
+<div class="mega-menu" id="megaMenu" hidden>
+  <div class="mega-menu-header">
+    <div class="mega-menu-user">
+      <i class="fa-solid fa-circle-user fa-2x"></i>
+      <span id="megaMenuUsername">Hello, Sign In</span>
+    </div>
+    <button class="mega-menu-close" id="megaMenuClose"><i class="fa-solid fa-xmark"></i></button>
+  </div>
+  <div class="mega-menu-body">
+    <div class="mega-menu-section">
+      <h3>Trending</h3>
+      <ul>
+        <li><a href="#"><i class="fa-solid fa-fire"></i> Best Sellers</a></li>
+        <li><a href="#"><i class="fa-solid fa-bolt"></i> Today's Deals</a></li>
+        <li><a href="#"><i class="fa-solid fa-star"></i> New Releases</a></li>
+        <li><a href="#"><i class="fa-solid fa-gift"></i> Gift Ideas</a></li>
+      </ul>
+    </div>
+    <div class="mega-menu-section">
+      <h3>Digital Content & Devices</h3>
+      <ul>
+        <li><a href="#"><i class="fa-solid fa-tv"></i> Amazon miniTV</a></li>
+        <li><a href="#"><i class="fa-solid fa-music"></i> Amazon Music</a></li>
+        <li><a href="#"><i class="fa-solid fa-book"></i> Kindle Store</a></li>
+        <li><a href="#"><i class="fa-solid fa-cloud"></i> Amazon Drive</a></li>
+      </ul>
+    </div>
+    <div class="mega-menu-section">
+      <h3>Shop by Department</h3>
+      <ul>
+        <li><a href="#"><i class="fa-solid fa-mobile-screen"></i> Mobiles</a></li>
+        <li><a href="#"><i class="fa-solid fa-laptop"></i> Electronics</a></li>
+        <li><a href="#"><i class="fa-solid fa-shirt"></i> Fashion</a></li>
+        <li><a href="#"><i class="fa-solid fa-house"></i> Home & Kitchen</a></li>
+        <li><a href="#"><i class="fa-solid fa-dumbbell"></i> Sports</a></li>
+        <li><a href="#"><i class="fa-solid fa-baby"></i> Baby</a></li>
+        <li><a href="#"><i class="fa-solid fa-car"></i> Automotive</a></li>
+        <li><a href="#"><i class="fa-solid fa-seedling"></i> Garden</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- HERO CAROUSEL -->
+<section class="hero-section" id="heroSection">
+  <div class="hero-carousel" id="heroCarousel">
+    <div class="hero-slide active" style="background: linear-gradient(135deg, #0F2027 0%, #203A43 50%, #2C5364 100%)">
+      <div class="hero-content">
+        <div class="hero-badge">🔥 Limited Time</div>
+        <h1 class="hero-title">Up to <span class="hero-highlight">80% Off</span><br/>on Electronics</h1>
+        <p class="hero-subtitle">Smartphones, Laptops, Headphones & more — deals that end at midnight</p>
+        <div class="hero-countdown" id="countdown1">
+          <div class="countdown-unit"><span class="countdown-num" id="c1h">08</span><span class="countdown-label">hrs</span></div>
+          <div class="countdown-sep">:</div>
+          <div class="countdown-unit"><span class="countdown-num" id="c1m">24</span><span class="countdown-label">min</span></div>
+          <div class="countdown-unit"><span class="countdown-num" id="c1s">00</span><span class="countdown-label">sec</span></div>
+        </div>
+        <a href="#todays-deals" class="btn-primary hero-btn">Shop Deals Now</a>
+      </div>
+      <div class="hero-image-area">
+        <img src="https://images.unsplash.com/photo-1498049794561-7780e7231661?w=600&h=400&fit=crop" alt="Electronics Deals" class="hero-img" loading="lazy" />
+      </div>
+    </div>
+    <div class="hero-slide" style="background: linear-gradient(135deg, #1a0533 0%, #2d1b69 50%, #11998e 100%)">
+      <div class="hero-content">
+        <div class="hero-badge prime-badge">⭐ Prime Exclusive</div>
+        <h1 class="hero-title">Fashion <span class="hero-highlight">Season Sale</span></h1>
+        <p class="hero-subtitle">Top brands, trending styles — free delivery on Prime orders</p>
+        <a href="#" class="btn-primary hero-btn">Explore Fashion</a>
+      </div>
+      <div class="hero-image-area">
+        <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=600&h=400&fit=crop" alt="Fashion Sale" class="hero-img" loading="lazy" />
+      </div>
+    </div>
+    <div class="hero-slide" style="background: linear-gradient(135deg, #0d0d0d 0%, #1a1a2e 50%, #16213e 100%)">
+      <div class="hero-content">
+        <div class="hero-badge">🏠 New Arrivals</div>
+        <h1 class="hero-title">Transform Your <span class="hero-highlight">Home</span></h1>
+        <p class="hero-subtitle">Beautiful furniture, smart appliances, decor & more</p>
+        <a href="#" class="btn-primary hero-btn">Shop Home</a>
+      </div>
+      <div class="hero-image-area">
+        <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&h=400&fit=crop" alt="Home Decor" class="hero-img" loading="lazy" />
+      </div>
+    </div>
+  </div>
+  <button class="hero-prev" id="heroPrev" aria-label="Previous slide"><i class="fa-solid fa-chevron-left"></i></button>
+  <button class="hero-next" id="heroNext" aria-label="Next slide"><i class="fa-solid fa-chevron-right"></i></button>
+  <div class="hero-dots" id="heroDots">
+    <span class="hero-dot active" data-idx="0"></span>
+    <span class="hero-dot" data-idx="1"></span>
+    <span class="hero-dot" data-idx="2"></span>
+  </div>
+</section>
+
+<!-- SIGN-IN ALERT BANNER -->
+<div class="signin-banner" id="signinBanner">
+  <p>Sign in for personalized recommendations, order tracking & Prime benefits</p>
+  <button class="btn-primary btn-sm" id="signinBannerBtn">Sign In Now</button>
+</div>
+
+<!-- MAIN CONTENT -->
+<main class="main-content">
+
+  <!-- FEATURED CATEGORIES GRID -->
+  <section class="section categories-section">
+    <div class="section-header">
+      <h2 class="section-title">Shop by Category</h2>
+    </div>
+    <div class="categories-grid" id="categoriesGrid">
+      <!-- Filled by JS -->
+    </div>
+  </section>
+
+  <!-- TODAY'S DEALS -->
+  <section class="section deals-section" id="todays-deals">
+    <div class="section-header">
+      <h2 class="section-title">⚡ Today's Deals</h2>
+      <div class="section-meta">
+        <span class="deals-timer" id="dealsTimer">Ends in: <strong id="dealsTime">--:--:--</strong></span>
+        <a href="#" class="section-see-all">See all deals →</a>
+      </div>
+    </div>
+    <div class="deals-slider" id="dealsSlider">
+      <!-- Filled by JS -->
+    </div>
+  </section>
+
+  <!-- SEARCH RESULTS (hidden by default) -->
+  <section class="section search-results-section" id="searchResultsSection" hidden>
+    <div class="section-header">
+      <h2 class="section-title" id="searchResultsTitle">Results for ""</h2>
+      <div class="search-filters">
+        <select id="sortFilter" class="filter-select">
+          <option value="relevance">Sort: Relevance</option>
+          <option value="price-asc">Price: Low to High</option>
+          <option value="price-desc">Price: High to Low</option>
+          <option value="rating">Avg. Customer Review</option>
+          <option value="newest">Newest Arrivals</option>
+        </select>
+      </div>
+    </div>
+    <div class="products-grid" id="searchResultsGrid"></div>
+  </section>
+
+  <!-- PRIME BANNER -->
+  <section class="prime-banner-section">
+    <div class="prime-banner">
+      <div class="prime-banner-left">
+        <div class="prime-logo">prime</div>
+        <h3>Try Amazon Prime FREE for 30 days</h3>
+        <p>Unlimited FREE delivery · Exclusive deals · Prime Video · Ad-free Music</p>
+        <button class="btn-primary prime-cta">Start Your Free Trial</button>
+      </div>
+      <div class="prime-banner-right">
+        <div class="prime-feature"><i class="fa-solid fa-truck-fast"></i><span>Free Delivery</span></div>
+        <div class="prime-feature"><i class="fa-solid fa-video"></i><span>Prime Video</span></div>
+        <div class="prime-feature"><i class="fa-solid fa-music"></i><span>Prime Music</span></div>
+        <div class="prime-feature"><i class="fa-solid fa-bolt"></i><span>Early Access Deals</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURED PRODUCTS -->
+  <section class="section products-section" id="featured-products">
+    <div class="section-header">
+      <h2 class="section-title">🌟 Featured Products</h2>
+      <div class="filter-tabs" id="filterTabs">
+        <button class="filter-tab active" data-cat="all">All</button>
+        <button class="filter-tab" data-cat="electronics">Electronics</button>
+        <button class="filter-tab" data-cat="fashion">Fashion</button>
+        <button class="filter-tab" data-cat="home">Home</button>
+        <button class="filter-tab" data-cat="beauty">Beauty</button>
+        <button class="filter-tab" data-cat="sports">Sports</button>
+      </div>
+    </div>
+    <div class="products-grid" id="productsGrid"></div>
+    <button class="load-more-btn" id="loadMoreBtn">Load More Products</button>
+  </section>
+
+  <!-- RECENTLY VIEWED -->
+  <section class="section recently-viewed" id="recentlyViewedSection" hidden>
+    <div class="section-header">
+      <h2 class="section-title">Recently Viewed</h2>
+      <a href="#" class="section-see-all">View all →</a>
+    </div>
+    <div class="products-scroll" id="recentlyViewedGrid"></div>
+  </section>
+
+  <!-- CUSTOMER REVIEWS SECTION -->
+  <section class="section reviews-section">
+    <div class="section-header">
+      <h2 class="section-title">What Customers Are Saying</h2>
+    </div>
+    <div class="reviews-grid" id="reviewsGrid">
+      <!-- Filled by JS -->
+    </div>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+    <i class="fa-solid fa-arrow-up"></i> Back to top
+  </button>
+
+  <div class="footer-links">
+    <div class="footer-col">
+      <h4>Get to Know Us</h4>
+      <ul>
+        <li><a href="#">About Amazon</a></li>
+        <li><a href="#">Careers</a></li>
+        <li><a href="#">Press Releases</a></li>
+        <li><a href="#">Amazon Science</a></li>
+        <li><a href="#">Sustainability</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Connect With Us</h4>
+      <ul>
+        <li><a href="#"><i class="fa-brands fa-facebook"></i> Facebook</a></li>
+        <li><a href="#"><i class="fa-brands fa-twitter"></i> Twitter</a></li>
+        <li><a href="#"><i class="fa-brands fa-instagram"></i> Instagram</a></li>
+        <li><a href="#"><i class="fa-brands fa-youtube"></i> YouTube</a></li>
+        <li><a href="#"><i class="fa-brands fa-linkedin"></i> LinkedIn</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Make Money with Us</h4>
+      <ul>
+        <li><a href="#">Sell on Amazon</a></li>
+        <li><a href="#">Sell under Accelerator</a></li>
+        <li><a href="#">Protect Your Brand</a></li>
+        <li><a href="#">Amazon Global Selling</a></li>
+        <li><a href="#">Become an Affiliate</a></li>
+        <li><a href="#">Fulfilment by Amazon</a></li>
+        <li><a href="#">Advertise Your Products</a></li>
+        <li><a href="#">Amazon Pay on Merchants</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Let Us Help You</h4>
+      <ul>
+        <li><a href="#">Your Account</a></li>
+        <li><a href="#">Returns Centre</a></li>
+        <li><a href="#">Recalls and Product Safety Alerts</a></li>
+        <li><a href="#">100% Purchase Protection</a></li>
+        <li><a href="#">Amazon App Download</a></li>
+        <li><a href="#">Amazon Assistant Download</a></li>
+        <li><a href="#">Help</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <div class="footer-logo">
+      <svg width="80" height="24" viewBox="0 0 90 28" fill="none">
+        <text x="0" y="22" font-family="Georgia, serif" font-size="22" font-weight="800" fill="#FF9900" letter-spacing="-1">amazon</text>
+        <path d="M10 26 Q45 32 80 26" stroke="#FF9900" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="footer-app-links">
+      <a href="#" class="app-badge"><i class="fa-brands fa-google-play"></i> Google Play</a>
+      <a href="#" class="app-badge"><i class="fa-brands fa-apple"></i> App Store</a>
+    </div>
+    <div class="footer-legal">
+      <a href="#">Conditions of Use & Sale</a>
+      <a href="#">Privacy Notice</a>
+      <a href="#">Interest-Based Ads</a>
+    </div>
+    <p class="footer-copyright">© 1996-2025, Amazon.com, Inc. or its affiliates. All rights reserved.</p>
+    <p class="footer-made">Built with ❤️ by Aranya</p>
+  </div>
+</footer>
+
+<!-- CART SIDEBAR -->
+<div class="cart-overlay" id="cartOverlay" hidden></div>
+<div class="cart-sidebar" id="cartSidebar" hidden>
+  <div class="cart-sidebar-header">
+    <h3><i class="fa-solid fa-cart-shopping"></i> Your Cart (<span id="cartItemCount">0</span>)</h3>
+    <button class="cart-close" id="cartClose"><i class="fa-solid fa-xmark"></i></button>
+  </div>
+  <div class="cart-sidebar-body" id="cartBody">
+    <div class="cart-empty" id="cartEmpty">
+      <i class="fa-solid fa-cart-shopping fa-3x"></i>
+      <p>Your cart is empty</p>
+      <a href="#featured-products" class="btn-primary" id="cartShopBtn">Start Shopping</a>
+    </div>
+    <div class="cart-items" id="cartItems"></div>
+  </div>
+  <div class="cart-sidebar-footer" id="cartFooter" hidden>
+    <div class="cart-subtotal">
+      <span>Subtotal (<span id="cartSubtotalCount">0</span> items):</span>
+      <strong class="cart-total-price">₹<span id="cartTotalPrice">0</span></strong>
+    </div>
+    <button class="btn-primary cart-checkout-btn" id="checkoutBtn">Proceed to Checkout</button>
+    <button class="cart-continue-btn" id="cartContinueBtn">← Continue Shopping</button>
+  </div>
+</div>
+
+<!-- PRODUCT MODAL -->
+<div class="modal-overlay" id="productModalOverlay" hidden></div>
+<div class="product-modal" id="productModal" role="dialog" aria-modal="true" hidden>
+  <button class="modal-close" id="productModalClose"><i class="fa-solid fa-xmark"></i></button>
+  <div class="product-modal-content" id="productModalContent">
+    <!-- Filled by JS -->
+  </div>
+</div>
+
+<!-- AUTH MODAL -->
+<div class="modal-overlay" id="authModalOverlay" hidden></div>
+<div class="auth-modal" id="authModal" role="dialog" aria-modal="true" hidden>
+  <button class="modal-close" id="authModalClose"><i class="fa-solid fa-xmark"></i></button>
+  <div class="auth-modal-content">
+    <div class="auth-logo">amazon</div>
+    <div id="loginForm">
+      <h2>Sign in</h2>
+      <div class="form-group">
+        <label for="emailInput">Email or mobile phone number</label>
+        <input type="email" id="emailInput" class="form-input" placeholder="you@example.com" />
+      </div>
+      <div class="form-group">
+        <label for="passwordInput">Password</label>
+        <input type="password" id="passwordInput" class="form-input" placeholder="Password" />
+        <button class="password-toggle" type="button" onclick="togglePassword()">Show</button>
+      </div>
+      <button class="btn-primary auth-submit" id="loginSubmit">Sign In</button>
+      <p class="auth-terms">By signing in, you agree to Amazon's <a href="#">Conditions of Use</a> and <a href="#">Privacy Policy</a>.</p>
+      <hr class="auth-divider"/>
+      <p class="auth-switch">New to Amazon? <a href="#" id="switchToRegister">Create your Amazon account</a></p>
+    </div>
+    <div id="registerForm" hidden>
+      <h2>Create Account</h2>
+      <div class="form-group">
+        <label>Your name</label>
+        <input type="text" id="regName" class="form-input" placeholder="First and last name" />
+      </div>
+      <div class="form-group">
+        <label>Mobile number or email</label>
+        <input type="email" id="regEmail" class="form-input" placeholder="you@example.com" />
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" id="regPassword" class="form-input" placeholder="At least 6 characters" />
+      </div>
+      <div class="form-group">
+        <label>Re-enter password</label>
+        <input type="password" id="regPassword2" class="form-input" placeholder="Re-enter password" />
+      </div>
+      <button class="btn-primary auth-submit" id="registerSubmit">Create your Amazon account</button>
+      <p class="auth-switch">Already have an account? <a href="#" id="switchToLogin">Sign in</a></p>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST NOTIFICATION -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- WISHLIST BUTTON FLOATING -->
+<div class="floating-wishlist" id="floatingWishlist" hidden>
+  <button title="View Wishlist">
+    <i class="fa-solid fa-heart"></i>
+    <span class="wishlist-count" id="wishlistCount">0</span>
+  </button>
+</div>
+
+<!-- SCRIPTS -->
+<script src="js/data.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+/* PRODUCTS — extra detail styles */
+.prime-tag { display: inline-flex; align-items: center; gap: 3px; color: var(--prime-blue); font-size: 11px; font-weight: 700; margin-top: 2px; }
+.prime-tag::before { content: 'prime'; font-style: italic; font-size: 13px; font-weight: 900; }
+.delivery-tag { font-size: 11px; color: #007600; font-weight: 600; margin-top: 2px; }
+.stock-tag { font-size: 11px; color: #CC0C39; font-weight: 600; }
+.product-card-footer .add-to-cart-btn.added { background: linear-gradient(to bottom, #e8f5e9, #c8e6c9); border-color: #4CAF50; color: #1b5e20; }
+.category-filter-row { display: flex; gap: 10px; padding: 0 20px 12px; flex-wrap: wrap; }
+.search-no-results { text-align: center; padding: 60px 20px; color: var(--text-muted); }
+.search-no-results i { font-size: 48px; margin-bottom: 16px; }
+.search-no-results h3 { font-size: 20px; font-weight: 700; color: var(--text-primary); margin-bottom: 8px; }
